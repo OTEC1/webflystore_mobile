@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:padding="5dp">
+
+        <RelativeLayout
+            android:id="@+id/posts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_centerInParent="true" />
+
+            <ImageView
+                android:id="@+id/post_img"
+                android:layout_width="150dp"
+                android:layout_height="250dp" />
+
+
+            <EditText
+                android:id="@+id/PostName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_toEndOf="@id/post_img"
+                android:background="@drawable/registerline"
+                android:padding="10dp" />
+
+            <EditText
+                android:id="@+id/Postprice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/PostName"
+                android:layout_margin="10dp"
+                android:layout_toEndOf="@id/post_img"
+                android:background="@drawable/registerline"
+                android:padding="10dp" />
+
+            <EditText
+                android:id="@+id/gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/Postprice"
+                android:layout_margin="10dp"
+                android:layout_toEndOf="@id/post_img"
+                android:background="@drawable/registerline"
+                android:padding="10dp" />
+
+
+            <EditText
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/gender"
+                android:layout_margin="10dp"
+                android:layout_toEndOf="@id/post_img"
+                android:background="@drawable/registerline"
+                android:padding="10dp" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/description"
+                android:layout_margin="10dp"
+                android:text="Update" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/reviewing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/description"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="10dp"
+                android:text="Review" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/reviews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible">
+
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:drawableLeftCompat="@drawable/ic_baseline_account_circle_24"
+                app:drawableStartCompat="@drawable/ic_baseline_account_circle_24" />
+
+            <TextView
+                android:id="@+id/reviews1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/username"
+                android:layout_margin="25dp" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>
