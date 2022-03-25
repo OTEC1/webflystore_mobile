@@ -111,10 +111,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
-
-
          //util.message(decrypt("1234567812345678",BuildConfig.APPCIRCLE_API_URL) ,getApplicationContext());
 
         NOTIFICATION_LISTER();
@@ -311,8 +307,9 @@ public class MainActivity extends AppCompatActivity {
         sections.add("unisex");
         sections.add("kids");
 
-        adapter1 = new ArrayAdapter(getApplicationContext(),android.R.layout.simple_spinner_item, sections);
+        adapter1 = new ArrayAdapter(getApplicationContext(),R.layout.text_pad, sections);
         adapter1.notifyDataSetChanged();
+
         section.setAdapter(adapter1);
 
     }

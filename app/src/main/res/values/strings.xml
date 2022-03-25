@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Kokocarft.ng</string>
+    <string name="app_name">webflystore</string>
     <string name="DEVICE_TOKEN">DEVICE_TOKEN</string>
     <string name="title_activity_orders">Orders</string>
     <string name="prompt_email">Email</string>

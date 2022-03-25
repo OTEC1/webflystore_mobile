@@ -28,6 +28,10 @@ import com.otec.koko.utils.util;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +49,7 @@ public class OrderList extends Fragment {
     private String TAG = "OrderList";
     private Map<String,Object> map;
     private List<Map<String, Object>> list;
+    private int start;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,15 +58,14 @@ public class OrderList extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerview);
         progressBar = view.findViewById(R.id.progressBar);
         total = view.findViewById(R.id.total);
-
         list = new ArrayList<>();
 
         if(getArguments().getInt("view") == 1) {
-            
             FirebaseFirestore.getInstance().collection("Notification").orderBy("timestamp", Query.Direction.DESCENDING).get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             for (DocumentSnapshot doc : task.getResult().getDocuments()) {
+
                                 map = new HashMap<>();
                                 map.put("email", doc.get("email"));
                                 map.put("order_id", doc.get("order_id"));
@@ -80,26 +84,40 @@ public class OrderList extends Fragment {
                             Log.d(TAG, "onError: " + task.getException());
                     });
         }else {
+            start = 1;
+            FirebaseFirestore.getInstance().collection("Paid Orders").document("orders")
+                    .collection(getArguments().getString("user_email")).whereEqualTo("cartSessionId", getArguments().getString("order_id"))
+                        .get()
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    for (DocumentSnapshot doc : task.getResult().getDocuments()) {
+                                        map = new HashMap<>();
+                                        map.put("cartSessionId", doc.get("cartSessionId"));
+                                        map.put("doc_id", doc.get("doc_id"));
+                                        map.put("img_url", doc.get("img_url"));
+                                        map.put("item_id", doc.get("item_id"));
+                                        map.put("name", doc.get("name"));
+                                        map.put("price", doc.get("price"));
+                                        map.put("quantity", doc.get("quantity"));
+                                        map.put("email", doc.get("email"));
+                                        map.put("state", doc.get("state"));
+                                        map.put("country", doc.get("country"));
+                                        map.put("timestamp", doc.getDate("timestamp"));
 
-            FirebaseFirestore.getInstance().collection("Paid Orders").document("orders").collection(getArguments().getString("user_email")).whereEqualTo("cartSessionId", getArguments().getString("order_id")).get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot doc : task.getResult().getDocuments()) {
-                                map = new HashMap<>();
-                                map.put("cartSessionId", doc.get("cartSessionId"));
-                                map.put("doc_id", doc.get("doc_id"));
-                                map.put("img_url", doc.get("img_url"));
-                                map.put("item_id", doc.get("item_id"));
-                                map.put("name", doc.get("name"));
-                                map.put("price", doc.get("price"));
-                                map.put("quantity", doc.get("quantity"));
-                                Sum(Integer.parseInt(doc.get("quantity").toString()),Integer.parseInt(doc.get("price").toString()));
-                                list.add(map);
-                                set_layout(list,getArguments().getInt("view"));
-                            }
-                        } else
-                            Log.d(TAG, "onError: " + task.getException());
-                    });
+                                        if(doc.get("img_url").toString().trim().length() > 0)
+                                              Sum(Integer.parseInt(doc.get("quantity").toString().trim()),Integer.parseInt(doc.get("price").toString().trim()));
+                                        list.add(map);
+
+
+                                        if(task.getResult().getDocuments().size() == start) {
+                                            Collections.sort(list, (o1, o2) -> (o1.get("timestamp").toString()).compareTo(o1.get("timestamp").toString()));
+                                            set_layout(list, getArguments().getInt("view"));
+                                        }
+                                        start++;
+                                    }
+                                } else
+                                    Log.d(TAG, "onError: " + task.getException());
+                            });
         }
 
 
